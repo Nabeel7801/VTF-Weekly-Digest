@@ -6,7 +6,58 @@ const weekData = [
     {
         week: 1, 
         title: 'CyberSecurity Foundations', 
-        topics: ['MITRE attack', 'Breach & Attack Simulation', 'Red Canary Atomic Red', 'CYBERSECURITY FRAMEWORK', 'Professional Networking']
+        topics: ['MITRE attack', 'Breach & Attack Simulation', 'Red Canary Atomic Red', 'CYBERSECURITY FRAMEWORK', 'Professional Networking'],
+        data: [
+            {
+                title: "Technology",
+                options: [
+                    {
+                        title: "Topics",
+                        html: `
+                            <li class="inside-text">
+                                <p>MITRE ATTACK - <a href="https://attack.mitre.org/">https://attack.mitre.org/</a></p>
+                            </li>
+                            <li class="inside-text">
+                                <p>Defend - <a href="https://d3fend.mitre.org/about/">https://d3fend.mitre.org/about/</a></p>
+                            </li>
+                            <li class="inside-text">
+                                <p>Navigator - <a href="https://atlas.mitre.org/navigator/">https://atlas.mitre.org/navigator/</a></p>
+                            </li>
+                            <li class="inside-text">
+                                <p>Breach & Attack Simulation</p>
+                            </li>
+                            <li class="inside-text">
+                                <p>Threat Informed Defense 101</p>
+                            </li>
+                            <li class="inside-text">
+                                <p>CYBERSECURITY FRAMEWORK : <a href="https://www.nist.gov/cyberframework">https://www.nist.gov/cyberframework</a></p>
+                            </li>
+                        `
+                    },
+                    {
+                        title: "Exercises",
+                        html: `<h4>Exercises - Content to be added</h4>`
+                    }
+                ]
+            },
+            {
+                title: "Business Etiquette",
+                options: [
+                    {
+                        title: "Topics",
+                        html: `<h4>Topics - Content to be added</h4>`
+                    },
+                    {
+                        title: "Exercises",
+                        html: `<h4>Exercises - Content to be added</h4>`
+                    }
+                ]
+            },
+            {
+                title: "Network Visibility",
+                html: `<h4>Network Visibility - to be added</h4>`
+            }
+        ]
     },
     {
         week: 2, 
@@ -55,11 +106,52 @@ const weekData = [
     },
 ]
 
+function changeBodyHtml(data) {
+    $("#weekModal #weeklyCardData").html(data);
+
+}
+
 function showModal(week) {
-    const {title, topics} = weekData.filter(data => data.week === week)[0];
+    const {title, topics, data} = weekData.filter(data => data.week === week)[0];
 
     $("#weekModal .week-title").html(`Week ${week}: ${title}`);
-    $("#weekModal .body ul").html("");
+
+    $("#weekModal #weeklyCardSidebar").html("");
+    data.map((item, key) => $("#weekModal #weeklyCardSidebar").append(
+
+        item.options ? 
+            `
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-heading${key}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse${key}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            ${item.title}
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse${key}" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading${key}">
+                        <div class="accordion-body">
+                            ${item.options.map((option, index) => 
+                                index === item.options.length - 1 ?
+                                    "<button class='inner-button last' onclick='changeBodyHtml(" + JSON.stringify(option.html) + ")'>" + option.title + "</button>"
+                                :
+                                    "<button class='inner-button' onclick='changeBodyHtml(" + JSON.stringify(option.html) + ")'>" + option.title + "</button>"
+                            ).join("")}
+                        </div>
+                    </div>
+                </div>
+            `
+        :
+            `
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-single-button" type="button" onclick='changeBodyHtml(${JSON.stringify(item.html)})'>
+                            ${item.title}
+                        </button>
+                    </h2>
+                </div>
+            `
+
+    ))
+
     topics.map(topic => $("#weekModal .body ul").append(`<li class="inside-text">${topic}</li>`));
 
     $("#weekModal").show();
@@ -86,8 +178,8 @@ $( document ).ready(function() {
         <div class="listItem${data.week < currWeek ? ' completed' : ''}">
             <span><strong>Week-${data.week}</strong></span>
             ${data.week < currWeek ?
-                `<button type="button" class="btn iconBtn" onclick="showModal(${data.week})">
-                    <i class="fas fa-eye"></i>
+                `<button type="button" class="btn btn-primary btn-sm" onclick="showModal(${data.week})">
+                    Show
                 </button>`
                 :
                 ""

@@ -7,20 +7,6 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-*::-webkit-scrollbar {
-    width: 2px;
-    height: 2px;
-}
-
-*::-webkit-scrollbar-track {
-    background: #eee;
-}
-
-*::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 20px;
-}
-
 :root {
     --themeColor: #4288C8;
 }
@@ -29,11 +15,6 @@ body {
     transition: all 0.5s ease-in-out;
     scrollbar-width: thin;
     background-color: #F4F4F2;
-    overflow-x: hidden;
-    height: 100vh;
-    width: 100vw;
-    font-family: Montserrat, Helvetica, sans-serif;
-    overflow: hidden;
 }
 
 body #myLoaderIframe {
@@ -83,6 +64,11 @@ header {
     color: var(--themeColor);
 }
 
+.def {
+    color: var(--themeColor);
+    font-weight: bold;
+}
+
 .navbar .navbar-brand {
     font-family: Montserrat, Helvetica, sans-serif;
     font-weight: 600;
@@ -129,12 +115,36 @@ header {
     overflow: hidden;
 }
 
-.content {
+.page {
     width: 100vw;
-    height: calc(100vh - 80px);
-    overflow-y: auto;
-    margin-top: 80px;
-    padding: 1.5rem 3rem;
+    height: 100vh;
+    padding-top: "80px";
+    overflow: hidden;
+}
+
+.pageContainer {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+}
+
+.carousel {
+    margin-bottom: 3rem;
+}
+
+
+/* Since positioning the image, we need to help out the caption */
+
+.carousel-caption {
+    bottom: 3rem;
+    z-index: 10;
+}
+
+
+/* Declare heights because of positioning of img element */
+
+.carousel-item {
+    height: 32rem;
 }
 
 .content .heading {
@@ -191,7 +201,7 @@ header {
     width: 20px;
     height: 20px;
     background: #efefef;
-    box-shadow: 1px 1px 1px #ccc;
+    box-shadow: 4px 4px 4px rgb(178, 176, 176);
     border-radius: 50%;
     position: absolute;
     left: -12px;
@@ -206,6 +216,7 @@ header {
     box-shadow: none;
     font-size: 10px;
     background-color: var(--themeColor);
+    box-shadow: 4px 4px 4px rgb(178, 176, 176);
     text-align: center;
     line-height: 20px;
 }
@@ -216,6 +227,11 @@ header {
 
 button.btn:focus {
     box-shadow: none !important;
+}
+
+footer {
+    background-color: #fff;
+    box-shadow: 0px 30px 45px rgba(22, 22, 22, 0.1);
 }
 
 #weekModal {
@@ -235,9 +251,11 @@ button.btn:focus {
 #weekModal .weekCard {
     background-color: #fff;
     border-radius: 1rem;
-    width: 80%;
-    min-width: 400px;
-    max-width: 700px;
+    width: 90%;
+    max-width: 1000px;
+    min-width: 380px;
+    max-height: 80vh;
+    min-height: 60vh;
 }
 
 #weekModal .header {
@@ -257,7 +275,68 @@ button.btn:focus {
 }
 
 #weekModal .body {
-    padding: 1rem
+    padding: 1rem;
+}
+
+#weekModal .accordion {
+    max-height: calc(80vh - 1rem - 60px);
+    overflow: auto;
+}
+
+#weekModal .accordion .accordion-item button {
+    transition: all 0.2s ease-in-out;
+}
+
+#weekModal .accordion .accordion-item button:hover {
+    padding-left: 1.0rem;
+}
+
+#weekModal .accordion .accordion-button:focus {
+    box-shadow: none;
+}
+
+#weekModal .accordion .accordion-single-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+    border: 0;
+    border-radius: 0;
+    overflow-anchor: none;
+}
+
+#weekModal .accordion .inner-button {
+    width: 100%;
+    padding: 0.2rem 1.2rem;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+}
+
+#weekModal .accordion .inner-button.last {
+    padding-bottom: 0;
+    padding-top: 0.5rem;
+    border-bottom: none;
+}
+
+#weekModal .accordion .inner-button:hover,
+#weekModal .accordion .inner-button.active {
+    font-weight: 600;
+}
+
+#weekModal .accordion .inner-button::after {
+    content: "\f054";
+    font-size: 0.9rem;
+    float: right;
+    font-family: "Font Awesome 5 Pro";
 }
 
 #weekModal .inside-text {
